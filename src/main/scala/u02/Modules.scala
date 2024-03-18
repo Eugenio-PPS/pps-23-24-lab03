@@ -1,5 +1,8 @@
 package u02
 
+import u03.Sequences.Sequence
+import u03.Sequences.Sequence.flatMap
+
 object Modules extends App :
 
   // An ADT: type + module
@@ -11,6 +14,11 @@ object Modules extends App :
     def name(p: Person): String = p match
       case Student(n, _) => n
       case Teacher(n, _) => n
+
+    def coursesOf(t: Teacher)(persons: Sequence[Person]) =
+      flatMap(persons):
+        case p@Teacher(_, course) if p.equals(t) => Sequence.Cons(course, Sequence.Nil())
+        case _ => Sequence.Nil()
 
   println(Person.name(Person.Student("mario", 2015)))
 
@@ -24,3 +32,7 @@ object Modules extends App :
     case _ => false
 
   println(isStudent(Student("mario", 2015)))
+
+  val viroli: Teacher = Teacher("Viroli", "PPS")
+  val persons = Sequence.Cons(viroli, Sequence.Cons(Teacher("Ricci", "PCD"), Sequence.Cons(Student("Tampieri", 1), Sequence.Nil())))
+  println(coursesOf(viroli)(persons))
