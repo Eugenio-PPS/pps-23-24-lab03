@@ -26,6 +26,7 @@ object Sequences: // Essentially, generic linkedlists
 
     // Lab 03
     def zip[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] = (first, second) match
+      // TODO as tail recursion
       case (Cons(h1, t1), Cons(h2, t2)) => Cons((h1, h2), zip(t1, t2))
       case _ => Nil()
 
@@ -33,7 +34,10 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(h, t) if n > 0   => Cons(h, take(t)(n - 1))
       case _                     => Nil()
 
-    def concat[A](l1: Sequence[A], l2: Sequence[A]): Sequence[A] = ???
+    def concat[A](l1: Sequence[A], l2: Sequence[A]): Sequence[A] = l1 match
+      case Cons(h, t) => Cons(h, concat(t, l2))
+      case _ => l2
+
     def flatMap[A, B](l: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = ???
 
     def min(l: Sequence[Int]): Optional[Int] = ???
