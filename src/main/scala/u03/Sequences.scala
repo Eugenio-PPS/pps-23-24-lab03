@@ -40,12 +40,15 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(h, t) => concat(mapper(h), flatMap(t)(mapper))
       case _          => Nil()
 
-    // def fold[A, B](l: Sequence[A])(acc: B)(mapper: (A, B) => B): B = ???
+    def fold[A, B](l: Sequence[A])(acc: B)(mapper: (A, B) => B): B = l match
+      case Cons(h, t) => fold(t)(mapper(h, acc))(mapper)
+      case Nil()      => acc
 
-    def min(l: Sequence[Int]): Optional[Int] = l match
-      case Nil()          => Optional.Empty()
-      case Cons(h, Nil()) => Optional.Just(h)
-      case Cons(h, t)     => min(filter(l)(x => x <= h))
+    def min(l: Sequence[Int]): Optional[Int] =
+      fold(l)(Optional.Empty())((x, acc) => acc match
+        case Optional.Empty() => Optional.Just(x)
+        case Optional.Just(y) => Optional.Just(if (y < x) y else x)
+      )
     
 @main def trySequences =
   import Sequences.* 
