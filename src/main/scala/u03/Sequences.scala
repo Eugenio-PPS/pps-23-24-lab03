@@ -15,14 +15,12 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(h, t) => h + sum(t)
       case _          => 0
 
-    def map[A, B](l: Sequence[A])(mapper: A => B): Sequence[B] = l match
-      case Cons(h, t) => Cons(mapper(h), map(t)(mapper))
-      case Nil()      => Nil()
+    def map[A, B](l: Sequence[A])(mapper: A => B): Sequence[B] =
+      flatMap(l)(from => Cons(mapper(from), Nil()))
 
-    def filter[A](l1: Sequence[A])(pred: A => Boolean): Sequence[A] = l1 match
-      case Cons(h, t) if pred(h) => Cons(h, filter(t)(pred))
-      case Cons(_, t)            => filter(t)(pred)
-      case Nil()                 => Nil()
+    def filter[A](l1: Sequence[A])(pred: A => Boolean): Sequence[A] =
+      flatMap(l1): from =>
+        if (pred(from)) Cons(from, Nil()) else Nil()
 
     // Lab 03
     def zip[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] = (first, second) match
