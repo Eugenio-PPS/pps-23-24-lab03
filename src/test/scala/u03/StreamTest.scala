@@ -35,5 +35,5 @@ class StreamTest:
 
   @Test def pell(): Unit =
     val s = Stream.pell()
-    val firstFour = Stream.take(s)(4)
-    assertEquals(Cons(0, Cons(1, Cons(2, Cons(5, Nil())))), Stream.toList(firstFour))
+    val firstFive = Stream.take(s)(5)
+    assertEquals(Cons(0, Cons(1, Cons(2, Cons(5, Cons(12, Nil()))))), Stream.toList(firstFive))
