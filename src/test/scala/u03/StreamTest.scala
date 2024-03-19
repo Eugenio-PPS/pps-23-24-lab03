@@ -28,4 +28,8 @@ class StreamTest:
     val str1 = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
     val str2 = Stream.takeWhile(str1)(_ < 5) // {0,1,2,3,4}
     assertEquals(Cons(0, Cons(1, Cons(2, Cons(3, Cons(4, Nil()))))), Stream.toList(str2))
+
+  @Test def fill(): Unit =
+    val s = Stream.fill(5)("a") // {0,1,2,3,..}
+    assertEquals(Cons("a", Cons("a", Cons("a", Cons("a", Cons("a", Nil()))))), Stream.toList(s))
     
