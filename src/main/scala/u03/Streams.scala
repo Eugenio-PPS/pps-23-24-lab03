@@ -53,10 +53,16 @@ object Streams extends App :
      * Calculate Pell numbers using the Binet formula
      * @return a stream over Pell numbers
      */
-    def pell(): Stream[Long] =
+    def pellCloseFormula(): Stream[Long] =
       Stream.map(Stream.map(Stream.iterate(0)(_ + 1))
         (x => (Math.pow(1 + Math.sqrt(2), x) - Math.pow(1 - Math.sqrt(2), x))/(2*Math.sqrt(2)))
       )(x => Math.round(x))
+
+    def pell(): Stream[Long] =
+      def _pell(a: Long)(b: Long): Stream[Long] =
+        val current = 2 * b + a
+        Cons(() => current, () => _pell(b)(current))
+      Cons(() => 0, () => Cons(() => 1, () => _pell(0)(1)))
 
   end Stream
 
