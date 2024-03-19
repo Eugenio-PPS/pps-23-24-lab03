@@ -49,6 +49,15 @@ object Streams extends App :
       else
         cons(k, fill(n - 1)(k))
 
+    /**
+     * Calculate Pell numbers using the Binet formula
+     * @return a stream over Pell numbers
+     */
+    def pell(): Stream[Long] =
+      Stream.map(Stream.map(Stream.iterate(0)(_ + 1))
+        (x => (Math.pow(1 + Math.sqrt(2), x) - Math.pow(1 - Math.sqrt(2), x))/(2*Math.sqrt(2)))
+      )(x => Math.round(x))
+
   end Stream
 
 @main def tryStreams =
