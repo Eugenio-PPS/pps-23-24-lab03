@@ -30,15 +30,15 @@ class SequenceTest:
   
   @Test def testZip() = 
     val l2: Sequence[String] = Cons("10", Cons("20", Cons("30", Nil())))
-    assertEquals(Cons((10, "10"), Cons((20, "20"), Cons((30, "30"), Nil()))), zip(l, l2))
-    assertEquals(Nil(), zip(l, Nil()))
-    assertEquals(Nil(), zip(Nil(), l2))
-    assertEquals(Nil(), zip(Nil(), Nil()))
+    assertEquals(Cons((10, "10"), Cons((20, "20"), Cons((30, "30"), Nil()))), l.zip(l2))
+    assertEquals(Nil(), l.zip(Nil()))
+    assertEquals(Nil(), Nil().zip(l2))
+    assertEquals(Nil(), Nil().zip(Nil()))
 
   @Test def testConcat() =
     val l2: Sequence[Int] = Cons(40, Cons(50, Nil()))
-    assertEquals(Cons(10, Cons(20, Cons(30, Cons(40, Cons(50, Nil()))))), concat(l, l2))
-    assertEquals(Cons(40, Cons(50, Nil())), concat(Nil(), l2))
+    assertEquals(Cons(10, Cons(20, Cons(30, Cons(40, Cons(50, Nil()))))), l.concat(l2))
+    assertEquals(Cons(40, Cons(50, Nil())), Nil().concat(l2))
   @Test def testFlatMap() =
     assertEquals(Cons(11, Cons(21, Cons(31, Nil()))), flatMap(l)(v => Cons(v + 1, Nil())))
     assertEquals(Nil(), flatMap(Nil())(v => Cons(v, Nil())))
